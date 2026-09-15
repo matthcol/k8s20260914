@@ -8,7 +8,6 @@ RUN pip install -r requirements.txt
 COPY src .
 
 ENV DB_URL=''
-ENV DB_CREATE_TABLES='false'
 
 EXPOSE 8080
 
