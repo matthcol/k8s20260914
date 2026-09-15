@@ -16,4 +16,6 @@ kubectl apply -f db.statefulset.yml
 kubectl apply -f api.deployment.yml
 
 # Services
+kubectl apply -f db.service.yml
+kubectl apply -f api.service.yml
 

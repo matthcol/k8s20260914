@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movieapi
+  labels:
+    app: movieapi
+  annotations:
+    kubernetes.io/change-cause: "movie api v1.0"
+spec:
+  selector:
+    matchLabels:
+      app: movieapi
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: movieapi
+    spec:
+      containers:
+      - name: movieapi
+        image: movieapi:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_CREATE_TABLES
+          value: "true"
+        - name: DB_URL
+          value: "sqlite:///./cinema.db"
+
