@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dbmovie
+  labels:
+    app: dbmovie
+spec:
+  selector:
+    matchLabels:
+      app: dbmovie
+  serviceName: dbmovie
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dbmovie
+    spec:
+      containers:
+      - name: dbmovie
+        image: postgres:18
+        ports:
+        - containerPort: 5432
+          name: db
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: db-config
+                key: DB_NAME
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: db-config
+                key: DB_USER
+          - name: POSTGRES_PASSWORD
+            value: superpassword
+        volumeMounts:
+        - name: dbstorage
+          mountPath: /var/lib/postgresql
+        - name: db-init
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: db-init
+          configMap:
+            name: db-init
+  volumeClaimTemplates:
+  - metadata:
+      name: dbstorage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 200Mi

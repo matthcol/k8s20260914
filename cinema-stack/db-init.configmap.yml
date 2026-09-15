@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-init
+data:
+  01-tables.sql: |
+    create table movie (
+      id serial constraint pk_movie primary key,
+      title varchar(300) not null,
+      year smallint not null,
+      duration smallint null
+    );
+  # 02-contrainst.sql: "..."
+  # 03-indexes.sql: "..."
