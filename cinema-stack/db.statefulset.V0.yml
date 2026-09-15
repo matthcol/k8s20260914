@@ -33,10 +33,7 @@ spec:
                 name: db-config
                 key: DB_USER
           - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: DB_PASSWORD
+            value: superpassword
         volumeMounts:
         - name: dbstorage
           mountPath: /var/lib/postgresql

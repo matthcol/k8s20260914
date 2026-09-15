@@ -26,3 +26,9 @@ def list_movies_directed(person_id: int, db: Session = Depends(get_db)):
     if crud.get_person(db, person_id) is None:
         raise HTTPException(status_code=404, detail="Person not found")
     return crud.get_movies_by_director(db, person_id)
+
+@router.get("/persons/{person_id}/movies-played", response_model=list[schemas.FilmographyEntryResponse])
+def list_filmography(person_id: int, db: Session = Depends(get_db)):
+    if crud.get_person(db, person_id) is None:
+        raise HTTPException(status_code=404, detail="Person not found")
+    return crud.get_person_filmography(db, person_id)

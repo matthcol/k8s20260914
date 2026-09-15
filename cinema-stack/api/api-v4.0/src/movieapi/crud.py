@@ -48,3 +48,31 @@ def get_person(db: Session, person_id: int):
 
 def get_movies_by_director(db: Session, person_id: int):
     return db.query(models.Movie).filter(models.Movie.director_id == person_id).all()
+
+
+def get_play(db: Session, movie_id: int, actor_id: int):
+    return db.query(models.Play).filter(
+        models.Play.movie_id == movie_id,
+        models.Play.actor_id == actor_id
+    ).first()
+
+def add_actor_to_movie(db: Session, movie_id: int, actor_id: int, play: schemas.PlayCreate):
+    db_play = models.Play(movie_id=movie_id, actor_id=actor_id, **play.model_dump())
+    db.add(db_play)
+    db.commit()
+    db.refresh(db_play)
+    return db_play
+
+def remove_actor_from_movie(db: Session, movie_id: int, actor_id: int):
+    play = get_play(db, movie_id, actor_id)
+    if play is None:
+        return None
+    db.delete(play)
+    db.commit()
+    return play
+
+def get_movie_cast(db: Session, movie_id: int):
+    return db.query(models.Play).filter(models.Play.movie_id == movie_id).all()
+
+def get_person_filmography(db: Session, person_id: int):
+    return db.query(models.Play).filter(models.Play.actor_id == person_id).all()

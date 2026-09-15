@@ -18,6 +18,21 @@ class PersonResponse(PersonBase):
         orm_mode = True
 
 
+class PlayBase(BaseModel):
+    role: str | None = None
+
+
+class PlayCreate(PlayBase):
+    pass
+
+
+class CastMemberResponse(PlayBase):
+    actor: PersonResponse
+
+    class Config:
+        orm_mode = True
+
+
 class MovieBase(BaseModel):
     title: str
     year: int
@@ -32,6 +47,14 @@ class MovieCreate(MovieBase):
 class MovieResponse(MovieBase):
     id: int
     director: PersonResponse | None = None
+    cast: list[CastMemberResponse] = []
+
+    class Config:
+        orm_mode = True
+
+
+class FilmographyEntryResponse(PlayBase):
+    movie: MovieResponse
 
     class Config:
         orm_mode = True
