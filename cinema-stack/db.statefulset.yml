@@ -10,6 +10,7 @@ spec:
       app: dbmovie
   serviceName: dbmovie
   replicas: 1
+  # replicas: 2  # TODO: config synchro
   template:
     metadata:
       labels:
