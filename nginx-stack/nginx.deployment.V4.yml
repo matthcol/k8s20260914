@@ -5,7 +5,7 @@ metadata:
   labels:
     app: nginx
   annotations:
-    kubernetes.io/change-cause: "change listening port to 90"
+    kubernetes.io/change-cause: "set image: nginx:1.31-alpine"
 spec:
   selector:
     matchLabels:
@@ -20,7 +20,4 @@ spec:
       - name: nginx
         image: nginx:1.31-alpine
         ports:
-        - containerPort: 90
-        env:
-        - name: NGINX_PORT
-          value: "90"
+        - containerPort: 80
